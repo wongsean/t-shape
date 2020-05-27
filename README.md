@@ -55,4 +55,4 @@ async function handler(ctx: Context) {
 
 ## Roadmap
 
-[ ] Add branded type such as Int(number), Positive(number), Email(string), Url(string), etc.
+- Add branded type such as Int(number), Positive(number), Email(string), Url(string), etc.
