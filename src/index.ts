@@ -40,7 +40,7 @@ export class Sharp<T> {
 export function assert<T>(
   value: unknown,
   sharp: Sharp<T>,
-  { error = TypeError }: { error?: ErrorConstructor | Error } = {}
+  error: ErrorConstructor | Error = TypeError
 ): asserts value is T {
   const maybe = sharp.decoder.decode(value);
 
