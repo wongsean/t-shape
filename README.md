@@ -28,13 +28,16 @@ With Sharp,
 
 ```typescript
 import { Sharp, assert } from "toa-sharp";
+import { Errors } from "./errors";
 
-const RequestBody = Sharp.make((s) =>
-  s.Type({
-    author: s.ObjectID,
-    text: s.String,
-    replyTo: s.Optional(s.ObjectID),
-  })
+const RequestBody = Sharp.make(
+  (s) =>
+    s.Type({
+      author: s.ObjectID,
+      text: s.String,
+      replyTo: s.Optional(s.ObjectID),
+    }),
+  { throwWith: Errors.InvalidParams }
 );
 
 async function handler(ctx: Context) {
@@ -49,3 +52,7 @@ async function handler(ctx: Context) {
   // ObjectID is a branded string, just treat it as a string
 }
 ```
+
+## Roadmap
+
+[ ] Add branded type such as Int(number), Positive(number), Email(string), Url(string), etc.
