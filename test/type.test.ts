@@ -6,7 +6,7 @@ function passBody(body: { id: string }) {
 
 test("type assertion", () => {
   const a: unknown = "a";
-  const s = Sharp.make((s) => s.Type({ id: s.String }));
+  const s = Sharp.make((s) => s.Struct({ id: s.String }));
 
   expect(() => {
     // cannot pass before assert

@@ -4,6 +4,7 @@ import { draw } from "io-ts/lib/Tree";
 import { optional } from "./decoder/optional";
 import { literal } from "./decoder/literal";
 import { ObjectID } from "./decoder/object-id";
+import { unknown } from "./decoder/unknown";
 
 type Sharpable = typeof Sharpable;
 const Sharpable = {
@@ -11,10 +12,11 @@ const Sharpable = {
   String: D.string,
   Number: D.number,
   Boolean: D.boolean,
+  Unknown: unknown,
   Literal: literal,
-  Type: D.type,
+  Struct: D.type,
   Partial: D.partial,
-  Record: D.record,
+  Map: D.record,
   Array: D.array,
   Tuple: D.tuple,
   Intersection: D.intersection,
