@@ -24,7 +24,7 @@ const Sharpable = {
   ObjectID,
 };
 
-interface SimpleErrorConstructor {
+interface ErrorConstructor {
   new (message?: string): Error;
   readonly prototype: Error;
 }
@@ -32,12 +32,12 @@ interface SimpleErrorConstructor {
 export class Sharp<T> {
   private constructor(
     public readonly decoder: D.Decoder<T>,
-    public readonly error: SimpleErrorConstructor
+    public readonly error: ErrorConstructor
   ) {}
 
   static make<T>(
     fn: (s: Sharpable) => D.Decoder<T>,
-    { throwWith = TypeError }: { throwWith?: SimpleErrorConstructor } = {}
+    { throwWith = TypeError }: { throwWith?: ErrorConstructor } = {}
   ) {
     return new Sharp(fn(Sharpable), throwWith);
   }
