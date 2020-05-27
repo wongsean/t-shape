@@ -30,26 +30,24 @@ interface ErrorConstructor {
 }
 
 export class Sharp<T> {
-  private constructor(
-    public readonly decoder: D.Decoder<T>,
-    public readonly error: ErrorConstructor | Error
-  ) {}
+  private constructor(public readonly decoder: D.Decoder<T>) {}
 
-  static make<T>(
-    fn: (s: Sharpable) => D.Decoder<T>,
-    { throwWith = TypeError }: { throwWith?: ErrorConstructor | Error } = {}
-  ) {
-    return new Sharp(fn(Sharpable), throwWith);
+  static make<T>(fn: (s: Sharpable) => D.Decoder<T>) {
+    return new Sharp(fn(Sharpable));
   }
 }
 
-export function assert<T>(value: unknown, sharp: Sharp<T>): asserts value is T {
+export function assert<T>(
+  value: unknown,
+  sharp: Sharp<T>,
+  { error = TypeError }: { error?: ErrorConstructor | Error } = {}
+): asserts value is T {
   const maybe = sharp.decoder.decode(value);
 
   if (isLeft(maybe)) {
-    if (sharp.error instanceof Error) {
-      throw sharp.error;
+    if (error instanceof Error) {
+      throw error;
     }
-    throw new sharp.error(draw(maybe.left));
+    throw new error(draw(maybe.left));
   }
 }
