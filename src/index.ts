@@ -32,12 +32,12 @@ interface ErrorConstructor {
 export class Sharp<T> {
   private constructor(
     public readonly decoder: D.Decoder<T>,
-    public readonly error: ErrorConstructor
+    public readonly error: ErrorConstructor | Error
   ) {}
 
   static make<T>(
     fn: (s: Sharpable) => D.Decoder<T>,
-    { throwWith = TypeError }: { throwWith?: ErrorConstructor } = {}
+    { throwWith = TypeError }: { throwWith?: ErrorConstructor | Error } = {}
   ) {
     return new Sharp(fn(Sharpable), throwWith);
   }
@@ -47,6 +47,9 @@ export function assert<T>(value: unknown, sharp: Sharp<T>): asserts value is T {
   const maybe = sharp.decoder.decode(value);
 
   if (isLeft(maybe)) {
+    if (sharp.error instanceof Error) {
+      throw sharp.error;
+    }
     throw new sharp.error(draw(maybe.left));
   }
 }
