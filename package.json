@@ -2,9 +2,11 @@
   "name": "toa-sharp",
   "version": "0.1.0",
   "description": "Well typed safety validator",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest",
-    "prepublish": "tsc"
+    "prepublishOnly": "tsc"
   },
   "repository": {
     "type": "git",
