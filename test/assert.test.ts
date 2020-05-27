@@ -1,4 +1,4 @@
-import { Sharp, assert } from "../source";
+import { Sharp, assert } from "../src";
 
 test("simple example", () => {
   const RequestBody = Sharp.make((s) =>

@@ -19,4 +19,25 @@ test("decode", () => {
 
   const maybe6 = literal("ON", "OFF").decode("OFF");
   expect(isRight(maybe6)).toBeTruthy();
+
+  const maybe7 = literal(null).decode(undefined);
+  expect(isRight(maybe7)).toBeFalsy();
+});
+
+test("type", () => {
+  const maybe = literal("ON").decode("ON");
+
+  if (isRight(maybe)) {
+    // can pass as string
+    const on: "ON" = maybe.right;
+
+    // cannot pass as other type like number
+    // @ts-expect-error
+    const off: "OFF" = maybe.right;
+
+    // use them the same way
+    expect(on).toBe("ON");
+  } else {
+    fail("it should not be left");
+  }
 });

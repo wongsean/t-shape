@@ -1,4 +1,4 @@
-import { assert, Sharp } from "../source";
+import { assert, Sharp } from "../src";
 
 function passBody(body: { id: string }) {
   return body;
