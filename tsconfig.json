@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "outDir": "lib",
+    "target": "es2018", // Node.js 10
+    "lib": ["es2018"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "declaration": true,
+    "pretty": true,
+    "stripInternal": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noEmitOnError": true,
+    "useDefineForClassFields": true,
+    "forceConsistentCasingInFileNames": true,
+    // "skipLibCheck": true
+
+    "typeRoots": ["./node_modules/@types", "./test/types"]
+  },
+  "include": ["source", "test"]
+}
