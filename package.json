@@ -30,6 +30,7 @@
   "devDependencies": {
     "@types/jest": "^25.2.3",
     "@types/node": "^13.13.9",
+    "@types/bson": "^4.0.2",
     "jest": "^25.5.4",
     "ts-jest": "^25.5.1",
     "typescript": "^3.9.3"
@@ -38,7 +39,6 @@
     "url": "https://github.com/wongsean/toa-sharp/issues"
   },
   "dependencies": {
-    "@types/bson": "^4.0.2",
     "bson": "^4.0.4",
     "fp-ts": "^2.6.1",
     "io-ts": "^2.2.3"
