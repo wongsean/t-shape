@@ -103,6 +103,30 @@ Notice that it DOES NOT mean the key is optional (`key?: string`)
 
 `s.Union(s.String, s.Number)` => `string | number`
 
+##### The `s.Enum` constructor
+
+To compatible with Typescript enum when there is no other choice, it's not well supported due to a poor design, highly recommend using `s.Literal` instead.
+
+```ts
+// MUST NOT be a `const enum`, otherwise it will be optimized out.
+enum Toggle {
+  On = "ON",
+  Off = "OFF",
+}
+
+s.Enum("Toggle", Toggle); // => Toggle
+
+// You have to specify enum type when it's a numeric enum,
+// however numeric enums are unsafe in typescript, shouldn't be used anyway.
+// @see https://github.com/gcanti/io-ts/issues/216#issuecomment-621615906
+enum ToggleNumber {
+  On,
+  Off,
+}
+
+s.Enum<ToggleNumber>("ToggleNumber", ToggleNumber); // => ToggleNumber
+```
+
 #### Brand
 
 - the `s.ObjectID` is string with ObjectID constraint, it can pass to string
@@ -123,7 +147,7 @@ async function handler(ctx: Context) {
 }
 ```
 
-The third argument can receive a `Error | ErrorContructor`, the Error instance will be throw directly while the ErrorContructor will receive error message as first argument.
+The third argument can receive a `Error | ErrorContructor`, the Error instance will be threw directly while the ErrorContructor will receive error message as first argument.
 By default it's `TypeError` constructor.
 
 ## Roadmap

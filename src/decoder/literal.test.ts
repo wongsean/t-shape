@@ -34,7 +34,7 @@ test("type", () => {
     // can pass as string
     const on: "ON" = maybe.right;
 
-    // cannot pass as other type like number
+    // cannot pass as other type
     // @ts-expect-error
     const off: "OFF" = maybe.right;
 

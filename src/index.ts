@@ -5,6 +5,7 @@ import { optional } from "./decoder/optional";
 import { literal } from "./decoder/literal";
 import { ObjectID } from "./decoder/object-id";
 import { unknown } from "./decoder/unknown";
+import { Enum } from "./decoder/enum";
 
 type Sharpable = typeof Sharpable;
 const Sharpable = {
@@ -23,6 +24,7 @@ const Sharpable = {
   Union: D.union,
   Nullable: D.nullable,
   Optional: optional,
+  Enum,
   ObjectID,
 };
 
