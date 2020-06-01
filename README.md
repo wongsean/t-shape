@@ -3,7 +3,7 @@
 
 - [Installation](#installation)
 - [Usage](#usage)
-  - [Define a sharp](#define-a-sharp)
+  - [Define a shape](#define-a-shape)
     - [Primitive](#primitive)
     - [Combinators](#combinators)
       - [The `s.Literal` constructor](#the-sliteral-constructor)
@@ -24,14 +24,14 @@
 
 ## Installation
 
-`npm i toa-sharp`
+`npm i type-shape`
 
 ## Usage
 
-### Define a sharp
+### Define a shape
 
 ```ts
-const sharp = Sharp.make((s) =>
+const shape = Shape.make((s) =>
   s.Struct({
     id: s.ObjectID,
     name: s.String,
@@ -133,13 +133,13 @@ s.Enum<ToggleNumber>("ToggleNumber", ToggleNumber); // => ToggleNumber
 
 ### Assertion
 
-Say we are using koa(with body-parser), to assert body sharp you can
+Say we are using koa(with body-parser), to assert body shape you can
 
 ```ts
-import { Sharp, assert } from "toa-sharp";
+import { Shape, assert } from "type-shape";
 import { Errors } from "./errors";
 
-const Body = Sharp.make((s) => S.Struct({ id: s.ObjectID, text: s.String }));
+const Body = Shape.make((s) => S.Struct({ id: s.ObjectID, text: s.String }));
 
 async function handler(ctx: Context) {
   assert(ctx.request.body, Body, new Errors.InvalidParams());

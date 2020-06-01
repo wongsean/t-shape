@@ -1,7 +1,7 @@
-import { Sharp, assert } from "../src";
+import { Shape, assert } from "../src";
 
 test("simple example", () => {
-  const RequestBody = Sharp.make((s) =>
+  const RequestBody = Shape.make((s) =>
     s.Struct({
       id: s.String,
     })
@@ -17,7 +17,7 @@ test("simple example", () => {
 });
 
 test("optional field", () => {
-  const RequestBody = Sharp.make((s) =>
+  const RequestBody = Shape.make((s) =>
     s.Intersection(
       s.Struct({
         id: s.String,
@@ -46,7 +46,7 @@ test("optional field", () => {
 });
 
 test("optional field another way", () => {
-  const RequestBody = Sharp.make((s) =>
+  const RequestBody = Shape.make((s) =>
     s.Struct({
       id: s.String,
       liked: s.Optional(s.Boolean),
@@ -71,7 +71,7 @@ test("optional field another way", () => {
 });
 
 test("nullable field", () => {
-  const RequestBody = Sharp.make((s) =>
+  const RequestBody = Shape.make((s) =>
     s.Struct({
       id: s.String,
       author: s.Nullable(s.String),
@@ -104,7 +104,7 @@ class CustomError extends Error {
 }
 
 test("error throw", () => {
-  const s = Sharp.make((s) => s.String);
+  const s = Shape.make((s) => s.String);
 
   expect(() => assert(123, s, CustomError)).toThrow(CustomError);
   expect(() => assert(123, s, new CustomError())).toThrow(CustomError);

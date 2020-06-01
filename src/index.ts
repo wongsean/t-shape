@@ -7,8 +7,7 @@ import { ObjectID } from "./decoder/object-id";
 import { unknown } from "./decoder/unknown";
 import { Enum } from "./decoder/enum";
 
-type Sharpable = typeof Sharpable;
-const Sharpable = {
+const Shapeable = {
   Never: D.never,
   String: D.string,
   Number: D.number,
@@ -26,27 +25,27 @@ const Sharpable = {
   Optional: optional,
   Enum,
   ObjectID,
-};
+} as const;
 
 interface ErrorConstructor {
   new (message?: string): Error;
   readonly prototype: Error;
 }
 
-export class Sharp<T> {
+export class Shape<T> {
   private constructor(public readonly decoder: D.Decoder<T>) {}
 
-  static make<T>(fn: (s: Sharpable) => D.Decoder<T>) {
-    return new Sharp(fn(Sharpable));
+  static make<T>(fn: (s: typeof Shapeable) => D.Decoder<T>) {
+    return new Shape(fn(Shapeable));
   }
 }
 
 export function assert<T>(
   value: unknown,
-  sharp: Sharp<T>,
+  shape: Shape<T>,
   error: ErrorConstructor | Error = TypeError
 ): asserts value is T {
-  const maybe = sharp.decoder.decode(value);
+  const maybe = shape.decoder.decode(value);
 
   if (isLeft(maybe)) {
     if (error instanceof Error) {

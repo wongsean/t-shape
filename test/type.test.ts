@@ -1,4 +1,4 @@
-import { assert, Sharp } from "../src";
+import { assert, Shape } from "../src";
 
 function passBody(body: { id: string }) {
   return body;
@@ -6,7 +6,7 @@ function passBody(body: { id: string }) {
 
 test("type assertion", () => {
   const a: unknown = "a";
-  const s = Sharp.make((s) => s.Struct({ id: s.String }));
+  const s = Shape.make((s) => s.Struct({ id: s.String }));
 
   expect(() => {
     // cannot pass before assert

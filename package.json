@@ -1,5 +1,5 @@
 {
-  "name": "toa-sharp",
+  "name": "type-shape",
   "version": "1.1.0",
   "description": "Well typed safety validator",
   "main": "lib/index.js",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wongsean/toa-sharp.git"
+    "url": "https://github.com/wongsean/type-shape.git"
   },
   "keywords": [
     "type",
     "types",
     "typed",
     "schema",
-    "sharp",
+    "shape",
     "former",
     "typescript",
     "contract",
@@ -36,7 +36,7 @@
     "typescript": "^3.9.3"
   },
   "bugs": {
-    "url": "https://github.com/wongsean/toa-sharp/issues"
+    "url": "https://github.com/wongsean/type-shape/issues"
   },
   "dependencies": {
     "bson": "^4.0.4",
