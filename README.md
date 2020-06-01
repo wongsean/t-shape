@@ -24,7 +24,7 @@
 
 ## Installation
 
-`npm i type-shape`
+`npm i t-shape`
 
 ## Usage
 
@@ -137,7 +137,7 @@ s.Enum<ToggleNumber>("ToggleNumber", ToggleNumber); // => ToggleNumber
 Say we are using koa(with body-parser), to assert body shape you can
 
 ```ts
-import { Shape, assert } from "type-shape";
+import { Shape, assert } from "t-shape";
 import { Errors } from "./errors";
 
 const Body = Shape.make((s) => S.Struct({ id: s.ObjectID, text: s.String }));
