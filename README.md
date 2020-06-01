@@ -129,7 +129,8 @@ s.Enum<ToggleNumber>("ToggleNumber", ToggleNumber); // => ToggleNumber
 
 #### Brand
 
-- the `s.ObjectID` is string with ObjectID constraint, it can pass to string
+- the `s.ObjectID` is string with ObjectID constraint, it can pass to string.
+- the `s.Url` is string with Url constraint, it uses URL constructor to validate.
 
 ### Assertion
 

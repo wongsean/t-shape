@@ -19,11 +19,9 @@
     "typed",
     "schema",
     "shape",
-    "former",
     "typescript",
-    "contract",
-    "contractor",
-    "validator"
+    "validator",
+    "assertion"
   ],
   "author": "Sean Wong",
   "license": "MIT",
