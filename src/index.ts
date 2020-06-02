@@ -6,6 +6,8 @@ import { literal } from "./decoder/literal";
 import { ObjectID } from "./decoder/object-id";
 import { unknown } from "./decoder/unknown";
 import { Enum } from "./decoder/enum";
+import { Url } from "./decoder/url";
+import { Int } from "./decoder/int";
 
 const Shapeable = {
   Never: D.never,
@@ -25,6 +27,8 @@ const Shapeable = {
   Optional: optional,
   Enum,
   ObjectID,
+  Url,
+  Int,
 } as const;
 
 interface ErrorConstructor {
