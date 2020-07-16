@@ -18,7 +18,7 @@ test("simple example", () => {
 
 test("optional field", () => {
   const RequestBody = Shape.make((s) =>
-    s.Intersection(
+    s.Intersect(
       s.Struct({
         id: s.String,
       }),

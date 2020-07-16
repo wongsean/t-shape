@@ -1,3 +1,4 @@
+import { pipe } from "fp-ts/lib/pipeable";
 import * as D from "io-ts/lib/Decoder";
 
 export interface IntBrand {
@@ -6,8 +7,7 @@ export interface IntBrand {
 
 export type Int = number & IntBrand;
 
-export const Int: D.Decoder<Int> = D.refinement(
+export const Int: D.Decoder<unknown, Int> = pipe(
   D.number,
-  (s): s is Int => Number.isInteger(s),
-  "Int"
+  D.refine((s): s is Int => Number.isInteger(s), "Int")
 );
