@@ -14,7 +14,7 @@
       - [The `s.Map` constructor](#the-smap-constructor)
       - [The `s.Array` constructor](#the-sarray-constructor)
       - [The `s.Tuple` constructor](#the-stuple-constructor)
-      - [The `s.Intersection` constructor](#the-sintersection-constructor)
+      - [The `s.Intersect` constructor](#the-sintersect-constructor)
       - [The `s.Union` constructor](#the-sunion-constructor)
     - [Brand](#brand)
   - [Assertion](#assertion)
@@ -95,9 +95,9 @@ Notice that it DOES NOT mean the key is optional (`key?: string`)
 
 `s.Tuple(s.String, s.Number)` => `[string, number]`
 
-##### The `s.Intersection` constructor
+##### The `s.Intersect` constructor
 
-`s.Intersection(s.Struct({ name: s.String }), s.Partial({ age: s.Number }))` => `{ name: string } & { age?: number }`
+`s.Intersect(s.Struct({ name: s.String }), s.Partial({ age: s.Number }))` => `{ name: string } & { age?: number }`
 
 ##### The `s.Union` constructor
 
