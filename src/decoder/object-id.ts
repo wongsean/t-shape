@@ -1,5 +1,6 @@
 import * as D from "io-ts/lib/Decoder";
 import { ObjectId } from "bson";
+import { pipe } from "fp-ts/lib/pipeable";
 
 export interface ObjectIDBrand {
   readonly ObjectID: unique symbol;
@@ -7,8 +8,7 @@ export interface ObjectIDBrand {
 
 export type ObjectID = string & ObjectIDBrand;
 
-export const ObjectID: D.Decoder<ObjectID> = D.refinement(
+export const ObjectID: D.Decoder<unknown, ObjectID> = pipe(
   D.string,
-  (s): s is ObjectID => ObjectId.isValid(s),
-  "ObjectID"
+  D.refine((s): s is ObjectID => ObjectId.isValid(s), "ObjectID")
 );

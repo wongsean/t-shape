@@ -2,9 +2,6 @@ import { literal } from "./literal";
 import { isRight } from "fp-ts/lib/Either";
 
 test("decode", () => {
-  const maybe0 = literal().decode("s");
-  expect(isRight(maybe0)).toBeFalsy();
-
   const maybe1 = literal(null).decode(null);
   expect(isRight(maybe1)).toBeTruthy();
 

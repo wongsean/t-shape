@@ -1,14 +1,14 @@
 import * as D from "io-ts/lib/Decoder";
 import { isLeft } from "fp-ts/lib/Either";
-import { draw } from "io-ts/lib/Tree";
 import { optional } from "./decoder/optional";
 import { literal } from "./decoder/literal";
 import { ObjectID } from "./decoder/object-id";
 import { unknown } from "./decoder/unknown";
 import { Enum } from "./decoder/enum";
+import { Url } from "./decoder/url";
+import { Int } from "./decoder/int";
 
 const Shapeable = {
-  Never: D.never,
   String: D.string,
   Number: D.number,
   Boolean: D.boolean,
@@ -19,12 +19,17 @@ const Shapeable = {
   Map: D.record,
   Array: D.array,
   Tuple: D.tuple,
-  Intersection: D.intersection,
+  Intersect: <A, B>(
+    left: D.Decoder<unknown, A>,
+    right: D.Decoder<unknown, B>
+  ) => D.intersect(left)(right),
   Union: D.union,
   Nullable: D.nullable,
   Optional: optional,
   Enum,
   ObjectID,
+  Url,
+  Int,
 } as const;
 
 interface ErrorConstructor {
@@ -33,9 +38,9 @@ interface ErrorConstructor {
 }
 
 export class Shape<T> {
-  private constructor(public readonly decoder: D.Decoder<T>) {}
+  private constructor(public readonly decoder: D.Decoder<unknown, T>) {}
 
-  static make<T>(fn: (s: typeof Shapeable) => D.Decoder<T>) {
+  static make<T>(fn: (s: typeof Shapeable) => D.Decoder<unknown, T>) {
     return new Shape(fn(Shapeable));
   }
 }
@@ -51,6 +56,6 @@ export function assert<T>(
     if (error instanceof Error) {
       throw error;
     }
-    throw new error(draw(maybe.left));
+    throw new error(D.draw(maybe.left));
   }
 }

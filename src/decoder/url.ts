@@ -1,4 +1,5 @@
 import * as D from "io-ts/lib/Decoder";
+import { pipe } from "fp-ts/lib/pipeable";
 import { URL } from "url";
 
 export interface UrlBrand {
@@ -7,10 +8,9 @@ export interface UrlBrand {
 
 export type Url = string & UrlBrand;
 
-export const Url: D.Decoder<Url> = D.refinement(
+export const Url: D.Decoder<unknown, Url> = pipe(
   D.string,
-  (s): s is Url => isURL(s),
-  "Url"
+  D.refine((s): s is Url => isURL(s), "Url")
 );
 
 function isURL(s: string): s is Url {
