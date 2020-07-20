@@ -1,4 +1,4 @@
-import { Shape, assert } from "../src";
+import { Shape } from "../src";
 
 test("simple example", () => {
   const RequestBody = Shape.make((s) =>
