@@ -138,13 +138,13 @@ s.Enum<ToggleNumber>("ToggleNumber", ToggleNumber); // => ToggleNumber
 Say we are using koa(with body-parser), to assert body shape you can
 
 ```ts
-import { Shape, assert } from "t-shape";
+import { Shape } from "t-shape";
 import { Errors } from "./errors";
 
 const Body = Shape.make((s) => S.Struct({ id: s.OidLiteral, text: s.String }));
 
 async function handler(ctx: Context) {
-  assert(ctx.request.body, Body, new Errors.InvalidParams());
+  Shape.assert(ctx.request.body, Body, new Errors.InvalidParams());
   const { id, text } = ctx.request.body; // with type { id: OidLiteral, text: string }
 }
 ```
