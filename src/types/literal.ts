@@ -1,11 +1,11 @@
-import * as D from "io-ts/lib/Decoder";
-import * as G from "io-ts/lib/Guard";
+import { Decoder, fromGuard } from "io-ts/lib/Decoder";
+import { Guard } from "io-ts/lib/Guard";
 
 type Literal = string | number | boolean | null | undefined;
 
 export function literalGuard<A extends [Literal, ...Literal[]]>(
   ...values: A
-): G.Guard<unknown, A[number]> {
+): Guard<unknown, A[number]> {
   return {
     is: (u: unknown): u is A[number] => values.findIndex((a) => a === u) !== -1,
   };
@@ -13,7 +13,7 @@ export function literalGuard<A extends [Literal, ...Literal[]]>(
 
 export function literal<A extends [Literal, ...Literal[]]>(
   ...values: A
-): D.Decoder<unknown, A[number]> {
+): Decoder<unknown, A[number]> {
   const expected = values.map((value) => JSON.stringify(value)).join(" | ");
-  return D.fromGuard(literalGuard(...values), expected);
+  return fromGuard(literalGuard(...values), expected);
 }

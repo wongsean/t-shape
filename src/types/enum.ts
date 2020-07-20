@@ -1,9 +1,9 @@
-import * as D from "io-ts/lib/Decoder";
-import * as G from "io-ts/lib/Guard";
+import { Guard } from "io-ts/lib/Guard";
+import { fromGuard, Decoder } from "io-ts/lib/Decoder";
 
-export function enumGuard<A>(e: Record<string, A>): G.Guard<unknown, A> {
+function enumGuard<A>(e: Record<string, A>): Guard<unknown, A> {
   return {
-    is: (u: unknown): u is A =>
+    is: (u): u is A =>
       Object.keys(e)
         .map((key) => e[key])
         .findIndex((a) => a === u) !== -1,
@@ -13,14 +13,14 @@ export function enumGuard<A>(e: Record<string, A>): G.Guard<unknown, A> {
 export function Enum<A>(
   name: string,
   e: Record<string, A>
-): D.Decoder<unknown, A>;
+): Decoder<unknown, A>;
 export function Enum<A>(
   name: string,
   e: Record<string, string | number>
-): D.Decoder<unknown, A>;
+): Decoder<unknown, A>;
 export function Enum<A>(
   name: string,
   e: Record<string, A>
-): D.Decoder<unknown, A> {
-  return D.fromGuard(enumGuard(e), name);
+): Decoder<unknown, A> {
+  return fromGuard(enumGuard(e), name);
 }

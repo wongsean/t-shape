@@ -8,28 +8,24 @@ test("simple example", () => {
   );
 
   expect(() => {
-    assert({ id: "1" }, RequestBody);
+    RequestBody.coerce({ id: "1" });
   }).not.toThrowError();
 
   expect(() => {
-    assert({ id: 1 }, RequestBody);
+    RequestBody.coerce({ id: 1 });
   }).toThrow(TypeError);
 });
 
-test("assert function on Shape", () => {
+test("type casting", () => {
   const RequestBody = Shape.make((s) =>
     s.Struct({
-      id: s.String,
+      time: s.Date,
     })
   );
 
-  expect(() => {
-    Shape.assert({ id: "1" }, RequestBody);
-  }).not.toThrowError();
-
-  expect(() => {
-    Shape.assert({ id: 1 }, RequestBody);
-  }).toThrow(TypeError);
+  expect(RequestBody.coerce({ time: "2020-01-01" })).toStrictEqual({
+    time: new Date("2020-01-01"),
+  });
 });
 
 test("optional field", () => {
@@ -45,19 +41,19 @@ test("optional field", () => {
   );
 
   expect(() => {
-    assert({ id: "1" }, RequestBody);
+    RequestBody.coerce({ id: "1" });
   }).not.toThrowError();
 
   expect(() => {
-    assert({ id: "1", liked: true }, RequestBody);
+    RequestBody.coerce({ id: "1", liked: true });
   }).not.toThrowError();
 
   expect(() => {
-    assert({ id: 1 }, RequestBody);
+    RequestBody.coerce({ id: 1 });
   }).toThrow(TypeError);
 
   expect(() => {
-    assert({ id: "1", liked: "true" }, RequestBody);
+    RequestBody.coerce({ id: "1", liked: "true" });
   }).toThrow(TypeError);
 });
 
@@ -70,19 +66,19 @@ test("optional field another way", () => {
   );
 
   expect(() => {
-    assert({ id: "1" }, RequestBody);
+    RequestBody.coerce({ id: "1" });
   }).not.toThrowError();
 
   expect(() => {
-    assert({ id: "1", liked: true }, RequestBody);
+    RequestBody.coerce({ id: "1", liked: true });
   }).not.toThrowError();
 
   expect(() => {
-    assert({ id: 1 }, RequestBody);
+    RequestBody.coerce({ id: 1 });
   }).toThrow(TypeError);
 
   expect(() => {
-    assert({ id: "1", liked: "true" }, RequestBody);
+    RequestBody.coerce({ id: "1", liked: "true" });
   }).toThrow(TypeError);
 });
 
@@ -95,19 +91,19 @@ test("nullable field", () => {
   );
 
   expect(() => {
-    assert({ id: "1", author: "2" }, RequestBody);
+    RequestBody.coerce({ id: "1", author: "2" });
   }).not.toThrowError();
 
   expect(() => {
-    assert({ id: "1", author: null }, RequestBody);
+    RequestBody.coerce({ id: "1", author: null });
   }).not.toThrowError();
 
   expect(() => {
-    assert({ id: "1", author: 2 }, RequestBody);
+    RequestBody.coerce({ id: "1", author: 2 });
   }).toThrow(TypeError);
 
   expect(() => {
-    assert({ id: "1" }, RequestBody);
+    RequestBody.coerce({ id: "1" });
   }).toThrow(TypeError);
 });
 
@@ -122,6 +118,6 @@ class CustomError extends Error {
 test("error throw", () => {
   const s = Shape.make((s) => s.String);
 
-  expect(() => assert(123, s, CustomError)).toThrow(CustomError);
-  expect(() => assert(123, s, new CustomError())).toThrow(CustomError);
+  expect(() => s.coerce(123, CustomError)).toThrow(CustomError);
+  expect(() => s.coerce(123, new CustomError())).toThrow(CustomError);
 });
