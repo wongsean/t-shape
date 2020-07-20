@@ -16,6 +16,7 @@
       - [The `s.Intersect` constructor](#the-sintersect-constructor)
       - [The `s.Union` constructor](#the-sunion-constructor)
     - [Brand](#brand)
+    - [Parse](#parse)
   - [Assertion](#assertion)
 - [Roadmap](#roadmap)
 
@@ -124,23 +125,32 @@ s.Enum<ToggleNumber>("ToggleNumber", ToggleNumber); // => ToggleNumber
 
 #### Brand
 
-- the `s.OidLiteral` is string with ObjectID constraint, it uses `ObjectId.valid`.
-- the `s.UrlLiteral` is string with Url constraint, it uses URL constructor to validate.
-- the `s.Int` is number with Integer constraint, it uses `Number.isInteger`.
+- the `s.OidLiteral` is string with ObjectID constraint, it uses `ObjectId.valid(i)`.
+- the `s.UrlLiteral` is string with Url constraint, it uses `new URL(i)` to validate.
+- the `s.Int` is number with Integer constraint, it uses `Number.isInteger(i)`.
 
-### Assertion
+#### Parse
 
-Say we are using koa(with body-parser), to assert body shape you can
+- the `s.Date` will parse string or number to Date, by using `new Date(i)`
+
+### Coericion
+
+Say we are using koa(with body-parser), to coerce body shape you can
 
 ```ts
 import { Shape } from "t-shape";
 import { Errors } from "./errors";
 
-const Body = Shape.make((s) => S.Struct({ id: s.OidLiteral, text: s.String }));
+const Body = Shape.make((s) =>
+  S.Struct({ id: s.OidLiteral, text: s.String, time: s.Date })
+);
 
 async function handler(ctx: Context) {
-  Shape.assert(ctx.request.body, Body, new Errors.InvalidParams());
-  const { id, text } = ctx.request.body; // with type { id: OidLiteral, text: string }
+  // with type { id: OidLiteral, text: string, time: Date }
+  const { id, text, time } = Body.coerce(
+    ctx.request.body,
+    new Errors.InvalidParams()
+  );
 }
 ```
 
