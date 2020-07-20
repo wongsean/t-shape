@@ -16,7 +16,7 @@ const Shapeable = {
   Literal: literal,
   Struct: T.type,
   Partial: T.partial,
-  Map: T.record,
+  Map: <A>(a: T.Type<A>) => T.record(T.string, a),
   Array: T.array,
   Tuple: T.tuple,
   Intersect: <A, B>(a: T.Type<A>, b: T.Type<B>) => T.intersection([a, b]),

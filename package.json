@@ -26,12 +26,12 @@
   "author": "Sean Wong",
   "license": "MIT",
   "devDependencies": {
+    "@types/bson": "^4.0.2",
     "@types/jest": "^25.2.3",
     "@types/node": "^13.13.9",
-    "@types/bson": "^4.0.2",
     "jest": "^25.5.4",
     "ts-jest": "^25.5.1",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.7"
   },
   "bugs": {
     "url": "https://github.com/wongsean/t-shape/issues"
@@ -39,7 +39,7 @@
   "dependencies": {
     "bson": "^4.0.4",
     "fp-ts": "^2.6.1",
-    "io-ts": "^2.2.3",
+    "io-ts": "^2.2.9",
     "io-ts-reporters": "^1.2.1"
   }
 }
