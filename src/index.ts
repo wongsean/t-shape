@@ -1,34 +1,30 @@
-import * as D from "io-ts/lib/Decoder";
+import * as T from "io-ts";
+import reporter from "io-ts-reporters";
 import { isLeft } from "fp-ts/lib/Either";
-import { optional } from "./decoder/optional";
-import { literal } from "./decoder/literal";
-import { ObjectID } from "./decoder/object-id";
-import { unknown } from "./decoder/unknown";
-import { Enum } from "./decoder/enum";
-import { Url } from "./decoder/url";
-import { Int } from "./decoder/int";
+import { optional } from "./types/optional";
+import { literal } from "./types/literal";
+import { OidLiteral } from "./types/oid-literal";
+import { UrlLiteral } from "./types/url-literal";
+import { Enum } from "./types/enum";
+import { Int } from "./types/int";
 
 const Shapeable = {
-  String: D.string,
-  Number: D.number,
-  Boolean: D.boolean,
-  Unknown: unknown,
+  String: T.string,
+  Number: T.number,
+  Boolean: T.boolean,
+  Unknown: T.unknown,
   Literal: literal,
-  Struct: D.type,
-  Partial: D.partial,
-  Map: D.record,
-  Array: D.array,
-  Tuple: D.tuple,
-  Intersect: <A, B>(
-    left: D.Decoder<unknown, A>,
-    right: D.Decoder<unknown, B>
-  ) => D.intersect(left)(right),
-  Union: D.union,
-  Nullable: D.nullable,
+  Struct: T.type,
+  Partial: T.partial,
+  Map: T.record,
+  Array: T.array,
+  Tuple: T.tuple,
+  Intersect: <A, B>(a: T.Type<A>, b: T.Type<B>) => T.intersection([a, b]),
+  Union: T.union,
   Optional: optional,
   Enum,
-  ObjectID,
-  Url,
+  OidLiteral,
+  UrlLiteral,
   Int,
 } as const;
 
@@ -38,10 +34,27 @@ interface ErrorConstructor {
 }
 
 export class Shape<T> {
-  private constructor(public readonly decoder: D.Decoder<unknown, T>) {}
+  private constructor(public readonly codec: T.Type<T>) {}
 
-  static make<T>(fn: (s: typeof Shapeable) => D.Decoder<unknown, T>) {
+  static make<T>(fn: (s: typeof Shapeable) => T.Type<T>) {
     return new Shape(fn(Shapeable));
+  }
+}
+
+export namespace Shape {
+  export function assert<T>(
+    value: unknown,
+    shape: Shape<T>,
+    error: ErrorConstructor | Error = TypeError
+  ): asserts value is T {
+    const maybe = shape.codec.decode(value);
+
+    if (isLeft(maybe)) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new error(reporter.report(maybe).join("\n"));
+    }
   }
 }
 
@@ -50,12 +63,5 @@ export function assert<T>(
   shape: Shape<T>,
   error: ErrorConstructor | Error = TypeError
 ): asserts value is T {
-  const maybe = shape.decoder.decode(value);
-
-  if (isLeft(maybe)) {
-    if (error instanceof Error) {
-      throw error;
-    }
-    throw new error(D.draw(maybe.left));
-  }
+  Shape.assert(value, shape, error);
 }

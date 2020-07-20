@@ -16,6 +16,22 @@ test("simple example", () => {
   }).toThrow(TypeError);
 });
 
+test("assert function on Shape", () => {
+  const RequestBody = Shape.make((s) =>
+    s.Struct({
+      id: s.String,
+    })
+  );
+
+  expect(() => {
+    Shape.assert({ id: "1" }, RequestBody);
+  }).not.toThrowError();
+
+  expect(() => {
+    Shape.assert({ id: 1 }, RequestBody);
+  }).toThrow(TypeError);
+});
+
 test("optional field", () => {
   const RequestBody = Shape.make((s) =>
     s.Intersect(
@@ -70,30 +86,30 @@ test("optional field another way", () => {
   }).toThrow(TypeError);
 });
 
-test("nullable field", () => {
-  const RequestBody = Shape.make((s) =>
-    s.Struct({
-      id: s.String,
-      author: s.Nullable(s.String),
-    })
-  );
+// test("nullable field", () => {
+//   const RequestBody = Shape.make((s) =>
+//     s.Struct({
+//       id: s.String,
+//       author: s.Nullable(s.String),
+//     })
+//   );
 
-  expect(() => {
-    assert({ id: "1", author: "2" }, RequestBody);
-  }).not.toThrowError();
+//   expect(() => {
+//     assert({ id: "1", author: "2" }, RequestBody);
+//   }).not.toThrowError();
 
-  expect(() => {
-    assert({ id: "1", author: null }, RequestBody);
-  }).not.toThrowError();
+//   expect(() => {
+//     assert({ id: "1", author: null }, RequestBody);
+//   }).not.toThrowError();
 
-  expect(() => {
-    assert({ id: "1", author: 2 }, RequestBody);
-  }).toThrow(TypeError);
+//   expect(() => {
+//     assert({ id: "1", author: 2 }, RequestBody);
+//   }).toThrow(TypeError);
 
-  expect(() => {
-    assert({ id: "1" }, RequestBody);
-  }).toThrow(TypeError);
-});
+//   expect(() => {
+//     assert({ id: "1" }, RequestBody);
+//   }).toThrow(TypeError);
+// });
 
 class CustomError extends Error {
   constructor(message?: string) {
