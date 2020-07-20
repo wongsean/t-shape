@@ -7,7 +7,6 @@
     - [Primitive](#primitive)
     - [Combinators](#combinators)
       - [The `s.Literal` constructor](#the-sliteral-constructor)
-      - [The `s.Nullable` constructor](#the-snullable-constructor)
       - [The `s.Optional` constructor](#the-soptional-constructor)
       - [The `s.Struct` constructor](#the-sstruct-constructor)
       - [The `s.Partial` constructor](#the-spartial-constructor)
@@ -64,10 +63,6 @@ const shape = Shape.make((s) =>
 - `s.Literal(undefined)` => `undefined`
 - `s.Literal('ON')` => `'ON'`
 - `s.Literal('ON', 'OFF')` => `'ON' | 'OFF'`
-
-##### The `s.Nullable` constructor
-
-`s.Nullable(s.String)` => `string | null`
 
 ##### The `s.Optional` constructor
 
