@@ -33,7 +33,7 @@
 ```ts
 const shape = Shape.make((s) =>
   s.Struct({
-    id: s.ObjectID,
+    id: s.OidLiteral,
     name: s.String,
     age: s.Optional(s.Number)
     address: s.Array(s.String)
@@ -41,7 +41,7 @@ const shape = Shape.make((s) =>
 )
 
 // stands for type => {
-//   id: ObjectID // string with objectId constraint
+//   id: OidLiteral // string with objectId constraint
 //   name: string
 //   age: number | undefined
 //   address: string[]
@@ -129,8 +129,9 @@ s.Enum<ToggleNumber>("ToggleNumber", ToggleNumber); // => ToggleNumber
 
 #### Brand
 
-- the `s.ObjectID` is string with ObjectID constraint, it can pass to string.
-- the `s.Url` is string with Url constraint, it uses URL constructor to validate.
+- the `s.OidLiteral` is string with ObjectID constraint, it uses `ObjectId.valid`.
+- the `s.UrlLiteral` is string with Url constraint, it uses URL constructor to validate.
+- the `s.Int` is number with Integer constraint, it uses `Number.isInteger`.
 
 ### Assertion
 
@@ -140,11 +141,11 @@ Say we are using koa(with body-parser), to assert body shape you can
 import { Shape, assert } from "t-shape";
 import { Errors } from "./errors";
 
-const Body = Shape.make((s) => S.Struct({ id: s.ObjectID, text: s.String }));
+const Body = Shape.make((s) => S.Struct({ id: s.OidLiteral, text: s.String }));
 
 async function handler(ctx: Context) {
   assert(ctx.request.body, Body, new Errors.InvalidParams());
-  const { id, text } = ctx.request.body; // with type { id: ObjectID, text: string }
+  const { id, text } = ctx.request.body; // with type { id: OidLiteral, text: string }
 }
 ```
 
@@ -153,4 +154,4 @@ By default it's `TypeError` constructor.
 
 ## Roadmap
 
-- Add branded type such as Int(number), Positive(number), Email(string), Url(string), etc.
+- Add branded type such as Positive(number), Email(string), etc.
