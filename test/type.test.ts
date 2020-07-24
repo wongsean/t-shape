@@ -1,4 +1,4 @@
-import { assert, Shape } from "../src";
+import { Shape } from "../src";
 
 function passBody(body: { id: string }) {
   return body;
@@ -13,10 +13,8 @@ test("type assertion", () => {
     // @ts-expect-error
     passBody(a);
 
-    // assert type here
-    assert(a, s);
-
-    // can pass after assert
-    passBody(a);
+    // can pass after coerce
+    const body = s.coerce(a);
+    passBody(body);
   }).toThrow(TypeError);
 });

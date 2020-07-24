@@ -31,4 +31,7 @@ test("type", () => {
   } else {
     fail("it should not be left");
   }
+
+  const maybe2 = date.decode(undefined);
+  expect(isRight(maybe2)).toBeFalsy();
 });

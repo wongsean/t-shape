@@ -57,30 +57,3 @@ export class Shape<T> {
     return maybe.right;
   }
 }
-
-export namespace Shape {
-  /** @deprecated Use `Shape#coerce` instead */
-  export function assert<T>(
-    value: unknown,
-    shape: Shape<T>,
-    error: ErrorConstructor | Error = TypeError
-  ): asserts value is T {
-    const maybe = shape.codec.decode(value);
-
-    if (isLeft(maybe)) {
-      if (error instanceof Error) {
-        throw error;
-      }
-      throw new error(D.draw(maybe.left));
-    }
-  }
-}
-
-/** @deprecated Use `Shape#coerce` instead */
-export function assert<T>(
-  value: unknown,
-  shape: Shape<T>,
-  error: ErrorConstructor | Error = TypeError
-): asserts value is T {
-  Shape.assert(value, shape, error);
-}

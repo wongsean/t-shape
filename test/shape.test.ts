@@ -20,6 +20,7 @@ test("all types", () => {
         int: s.Int,
         oid: s.OidLiteral,
         url: s.UrlLiteral,
+        date: s.Date,
         interesec: s.Intersect(
           s.Struct({ name: s.String }),
           s.Partial({ age: s.Int })
