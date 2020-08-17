@@ -15,6 +15,8 @@
       - [The `s.Tuple` constructor](#the-stuple-constructor)
       - [The `s.Intersect` constructor](#the-sintersect-constructor)
       - [The `s.Union` constructor](#the-sunion-constructor)
+      - [The `s.Enum` constructor](#the-senum-constructor)
+      - [The `s.Constrain` constructor](#the-sconstrain-constructor)
     - [Brand](#brand)
     - [Parse](#parse)
   - [Assertion](#assertion)
@@ -102,6 +104,11 @@ Notice that it DOES NOT mean the key is optional (`key?: string`)
 ##### The `s.Enum` constructor
 
 To compatible with Typescript enum when there is no other choice, it's not well supported due to a poor design, highly recommend using `s.Literal` instead.
+
+##### The `s.Constrain` constructor
+
+To add additional constraint to a type.
+`s.Constrain(s.Number, n => n > 0, 'Positive') => number (with positive constraint)`
 
 ```ts
 // MUST NOT be a `const enum`, otherwise it will be optimized out.
