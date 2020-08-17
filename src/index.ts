@@ -8,6 +8,7 @@ import { optional } from "./types/optional";
 import { literal } from "./types/literal";
 import { unknown } from "./types/unknown";
 import { date } from "./types/date";
+import { constrain } from "./constrain";
 
 const Shapeable = {
   String: D.string,
@@ -30,6 +31,7 @@ const Shapeable = {
   UrlLiteral,
   Int,
   Date: date,
+  Constrain: constrain,
 } as const;
 
 interface ErrorConstructor {
