@@ -127,7 +127,8 @@ s.Enum<ToggleNumber>("ToggleNumber", ToggleNumber); // => ToggleNumber
 
 ##### The `s.Constrain` constructor
 
-`s.Constrain(s.Number, n => n > 0, 'Positive') => number (with positive constraint)`
+`s.Constrain(s.Number, n => n > 0, 'Positive')` => `number (with positive constraint)`
+
 To add additional constraint to a type.
 
 #### Brand
