@@ -105,11 +105,6 @@ Notice that it DOES NOT mean the key is optional (`key?: string`)
 
 To compatible with Typescript enum when there is no other choice, it's not well supported due to a poor design, highly recommend using `s.Literal` instead.
 
-##### The `s.Constrain` constructor
-
-To add additional constraint to a type.
-`s.Constrain(s.Number, n => n > 0, 'Positive') => number (with positive constraint)`
-
 ```ts
 // MUST NOT be a `const enum`, otherwise it will be optimized out.
 enum Toggle {
@@ -129,6 +124,11 @@ enum ToggleNumber {
 
 s.Enum<ToggleNumber>("ToggleNumber", ToggleNumber); // => ToggleNumber
 ```
+
+##### The `s.Constrain` constructor
+
+`s.Constrain(s.Number, n => n > 0, 'Positive') => number (with positive constraint)`
+To add additional constraint to a type.
 
 #### Brand
 
