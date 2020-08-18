@@ -1,5 +1,35 @@
+Protects your typescript code world from unknown outside input.
+
+```ts
+const Body = Shape.make((s) =>
+  s.Struct({
+    name: s.Constrain(s.String, (s) => s.length < 10, "Nickname"),
+    age: s.Int, // a refined number
+    gender: s.Enum("Gender", Gender),
+    birth: s.Date, // casting string to date
+  })
+);
+
+// a koa router with json bodyparser
+router.post("/profiles", async (ctx) => {
+  const profile = Body.corece(ctx.request.body);
+  // profile is validated and has type
+  // {
+  //   name: string
+  //   age: Int
+  //   gender: Gender
+  //   birth: Date
+  // }
+
+  const user = await create(profile);
+
+  ctx.body = user;
+});
+```
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 
 - [Installation](#installation)
 - [Usage](#usage)
@@ -19,7 +49,7 @@
       - [The `s.Constrain` constructor](#the-sconstrain-constructor)
     - [Brand](#brand)
     - [Parse](#parse)
-  - [Assertion](#assertion)
+  - [Coericion](#coericion)
 - [Roadmap](#roadmap)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
