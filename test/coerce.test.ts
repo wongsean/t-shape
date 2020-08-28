@@ -19,7 +19,7 @@ test("simple example", () => {
 test("type casting", () => {
   const RequestBody = Shape.make((s) =>
     s.Struct({
-      time: s.Date,
+      time: s.Loose.Date,
     })
   );
 

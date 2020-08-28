@@ -6,7 +6,7 @@ const Body = Shape.make((s) =>
     name: s.Constrain(s.String, (s) => s.length < 10, "Nickname"),
     age: s.Int, // a refined number
     gender: s.Enum("Gender", Gender),
-    birth: s.Date, // casting string to date
+    birth: s.Loose.Date, // casting string to date
   })
 );
 
@@ -30,7 +30,6 @@ router.post("/profiles", async (ctx) => {
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Installation](#installation)
 - [Usage](#usage)
   - [Define a shape](#define-a-shape)
@@ -48,7 +47,10 @@ router.post("/profiles", async (ctx) => {
       - [The `s.Enum` constructor](#the-senum-constructor)
       - [The `s.Constrain` constructor](#the-sconstrain-constructor)
     - [Brand](#brand)
-    - [Parse](#parse)
+    - [Loose Type](#loose-type)
+      - [The `s.Loose.Date` constructor](#the-sloosedate-constructor)
+      - [The `s.Loose.Number` constructor](#the-sloosenumber-constructor)
+      - [The `s.Loose.Boolean` constructor](#the-slooseboolean-constructor)
   - [Coericion](#coericion)
 - [Roadmap](#roadmap)
 
@@ -163,13 +165,42 @@ To add additional constraint to a type.
 
 #### Brand
 
-- the `s.OidLiteral` is string with ObjectID constraint, it uses `ObjectId.valid(i)`.
+##### The `s.OidLiteral` type
+
+the `s.OidLiteral` is string with ObjectID constraint, it uses `ObjectId.valid(i)`.
+
+##### The `s.UrlLiteral` type
+
 - the `s.UrlLiteral` is string with Url constraint, it uses `new URL(i)` to validate.
+
+##### The `s.Int` type
+
 - the `s.Int` is number with Integer constraint, it uses `Number.isInteger(i)`.
 
-#### Parse
+#### Loose Type
 
-- the `s.Date` will parse string or number to Date, by using `new Date(i)`
+##### The `s.Loose.Date` type
+
+the `s.Loose.Date` will cast string/number to Date, by using `new Date(i)`
+
+##### The `s.Loose.Number` type
+
+the `s.Loose.Number` will cast string/number to number, cases:
+
+- `123` -> `123`
+- `NaN` -> throw error
+- `"123"` -> throw error
+- `"123abc"` -> throw error
+- `""` -> throw error
+
+##### The `s.Loose.Boolean` type
+
+the `s.Loose.Boolean` will cast string/boolean to boolean, cases:
+
+- `true` -> `true`
+- `"false"` -> `false`
+- `"1"` -> throw error
+- `"yes"` -> throw error
 
 ### Coericion
 

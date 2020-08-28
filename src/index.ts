@@ -1,5 +1,7 @@
 import * as D from "io-ts/lib/Decoder";
 import { isLeft } from "fp-ts/lib/Either";
+
+import * as L from "./types/loose";
 import { OidLiteral } from "./types/oid-literal";
 import { UrlLiteral } from "./types/url-literal";
 import { Int } from "./types/int";
@@ -7,7 +9,6 @@ import { Enum } from "./types/enum";
 import { optional } from "./types/optional";
 import { literal } from "./types/literal";
 import { unknown } from "./types/unknown";
-import { date } from "./types/date";
 import { constrain } from "./constrain";
 
 const Shapeable = {
@@ -30,8 +31,12 @@ const Shapeable = {
   OidLiteral,
   UrlLiteral,
   Int,
-  Date: date,
   Constrain: constrain,
+  Loose: {
+    Date: L.date,
+    Number: L.number,
+    Boolean: L.boolean,
+  },
 } as const;
 
 interface ErrorConstructor {
