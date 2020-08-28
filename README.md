@@ -30,6 +30,7 @@ router.post("/profiles", async (ctx) => {
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Installation](#installation)
 - [Usage](#usage)
   - [Define a shape](#define-a-shape)
@@ -47,22 +48,25 @@ router.post("/profiles", async (ctx) => {
       - [The `s.Enum` constructor](#the-senum-constructor)
       - [The `s.Constrain` constructor](#the-sconstrain-constructor)
     - [Brand](#brand)
+      - [The `s.OidLiteral` type](#the-soidliteral-type)
+      - [The `s.UrlLiteral` type](#the-surlliteral-type)
+      - [The `s.Int` type](#the-sint-type)
     - [Loose Type](#loose-type)
-      - [The `s.Loose.Date` constructor](#the-sloosedate-constructor)
-      - [The `s.Loose.Number` constructor](#the-sloosenumber-constructor)
-      - [The `s.Loose.Boolean` constructor](#the-slooseboolean-constructor)
+      - [The `s.Loose.Date` type](#the-sloosedate-type)
+      - [The `s.Loose.Number` type](#the-sloosenumber-type)
+      - [The `s.Loose.Boolean` type](#the-slooseboolean-type)
   - [Coericion](#coericion)
 - [Roadmap](#roadmap)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Installation
+# Installation
 
 `npm i t-shape`
 
-## Usage
+# Usage
 
-### Define a shape
+## Define a shape
 
 ```ts
 const shape = Shape.make((s) =>
@@ -82,7 +86,7 @@ const shape = Shape.make((s) =>
 // }
 ```
 
-#### Primitive
+### Primitive
 
 - `s.Never`
 - `s.String`
@@ -90,50 +94,50 @@ const shape = Shape.make((s) =>
 - `s.Boolean`
 - `s.Unknown`
 
-#### Combinators
+### Combinators
 
-##### The `s.Literal` constructor
+#### The `s.Literal` constructor
 
 - `s.Literal(null)` => `null`
 - `s.Literal(undefined)` => `undefined`
 - `s.Literal('ON')` => `'ON'`
 - `s.Literal('ON', 'OFF')` => `'ON' | 'OFF'`
 
-##### The `s.Optional` constructor
+#### The `s.Optional` constructor
 
 `s.Optional(s.String)` => `string | undefined`
 
 Notice that it DOES NOT mean the key is optional (`key?: string`)
 
-##### The `s.Struct` constructor
+#### The `s.Struct` constructor
 
 `s.Struct({ id: s.String, time: s.Number })` => `{ id: string, time: number }`
 
-##### The `s.Partial` constructor
+#### The `s.Partial` constructor
 
 `s.Partial({ id: s.String, time: s.Number })` => `{ id?: string, time?: number }`
 
-##### The `s.Map` constructor
+#### The `s.Map` constructor
 
 `s.Map(s.Boolean)` => `Record<string, boolean>`
 
-##### The `s.Array` constructor
+#### The `s.Array` constructor
 
 `s.Array(s.Number)` => `number[]`
 
-##### The `s.Tuple` constructor
+#### The `s.Tuple` constructor
 
 `s.Tuple(s.String, s.Number)` => `[string, number]`
 
-##### The `s.Intersect` constructor
+#### The `s.Intersect` constructor
 
 `s.Intersect(s.Struct({ name: s.String }), s.Partial({ age: s.Number }))` => `{ name: string } & { age?: number }`
 
-##### The `s.Union` constructor
+#### The `s.Union` constructor
 
 `s.Union(s.String, s.Number)` => `string | number`
 
-##### The `s.Enum` constructor
+#### The `s.Enum` constructor
 
 To compatible with Typescript enum when there is no other choice, it's not well supported due to a poor design, highly recommend using `s.Literal` instead.
 
@@ -157,33 +161,33 @@ enum ToggleNumber {
 s.Enum<ToggleNumber>("ToggleNumber", ToggleNumber); // => ToggleNumber
 ```
 
-##### The `s.Constrain` constructor
+#### The `s.Constrain` constructor
 
 `s.Constrain(s.Number, n => n > 0, 'Positive')` => `number (with positive constraint)`
 
 To add additional constraint to a type.
 
-#### Brand
+### Brand
 
-##### The `s.OidLiteral` type
+#### The `s.OidLiteral` type
 
 the `s.OidLiteral` is string with ObjectID constraint, it uses `ObjectId.valid(i)`.
 
-##### The `s.UrlLiteral` type
+#### The `s.UrlLiteral` type
 
 - the `s.UrlLiteral` is string with Url constraint, it uses `new URL(i)` to validate.
 
-##### The `s.Int` type
+#### The `s.Int` type
 
 - the `s.Int` is number with Integer constraint, it uses `Number.isInteger(i)`.
 
-#### Loose Type
+### Loose Type
 
-##### The `s.Loose.Date` type
+#### The `s.Loose.Date` type
 
 the `s.Loose.Date` will cast string/number to Date, by using `new Date(i)`
 
-##### The `s.Loose.Number` type
+#### The `s.Loose.Number` type
 
 the `s.Loose.Number` will cast string/number to number, cases:
 
@@ -193,7 +197,7 @@ the `s.Loose.Number` will cast string/number to number, cases:
 - `"123abc"` -> throw error
 - `""` -> throw error
 
-##### The `s.Loose.Boolean` type
+#### The `s.Loose.Boolean` type
 
 the `s.Loose.Boolean` will cast string/boolean to boolean, cases:
 
@@ -202,7 +206,7 @@ the `s.Loose.Boolean` will cast string/boolean to boolean, cases:
 - `"1"` -> throw error
 - `"yes"` -> throw error
 
-### Coericion
+## Coericion
 
 Say we are using koa(with body-parser), to coerce body shape you can
 
@@ -226,6 +230,6 @@ async function handler(ctx: Context) {
 The third argument can receive a `Error | ErrorContructor`, the Error instance will be threw directly while the ErrorContructor will receive error message as first argument.
 By default it's `TypeError` constructor.
 
-## Roadmap
+# Roadmap
 
 - Add branded type such as Positive(number), Email(string), etc.
