@@ -28,6 +28,7 @@ test("all types", () => {
           s.Partial({ age: s.Int })
         ),
         union: s.Union(s.String, s.Number, s.Boolean),
+        sub: s.Shape(Shape.make((s) => s.String)),
       })
     )
   ).not.toThrowError();

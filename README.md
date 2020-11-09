@@ -47,6 +47,7 @@ router.post("/profiles", async (ctx) => {
       - [The `s.Union` constructor](#the-sunion-constructor)
       - [The `s.Enum` constructor](#the-senum-constructor)
       - [The `s.Constrain` constructor](#the-sconstrain-constructor)
+      - [The `s.Shape` constructor](#the-sshape-constructor)
     - [Brand](#brand)
       - [The `s.OidLiteral` type](#the-soidliteral-type)
       - [The `s.UrlLiteral` type](#the-surlliteral-type)
@@ -166,6 +167,10 @@ s.Enum<ToggleNumber>("ToggleNumber", ToggleNumber); // => ToggleNumber
 `s.Constrain(s.Number, n => n > 0, 'Positive')` => `number (with positive constraint)`
 
 To add additional constraint to a type.
+
+#### The `s.Shape` constructor
+
+`s.Shape(Shape.make(s => s.Number))` => `number`
 
 ### Brand
 

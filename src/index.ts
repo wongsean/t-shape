@@ -37,6 +37,7 @@ const Shapeable = {
     Number: L.number,
     Boolean: L.boolean,
   },
+  Shape: <T>(s: Shape<T>) => s.codec,
 } as const;
 
 interface ErrorConstructor {
