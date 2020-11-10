@@ -65,3 +65,7 @@ export class Shape<T> {
     return maybe.right;
   }
 }
+
+export type Static<T extends Shape<unknown>> = T extends Shape<infer A>
+  ? A
+  : never;
