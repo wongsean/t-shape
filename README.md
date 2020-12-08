@@ -30,7 +30,6 @@ router.post("/profiles", async (ctx) => {
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Installation](#installation)
 - [Usage](#usage)
   - [Define a shape](#define-a-shape)
@@ -210,6 +209,12 @@ the `s.Loose.Boolean` will cast string/boolean to boolean, cases:
 - `"false"` -> `false`
 - `"1"` -> throw error
 - `"yes"` -> throw error
+
+#### The `s.Loose.Optional` type
+
+the `s.Loose.Optional` will cast undefined/null to undefined, cases:
+
+- `undefined` / `null` -> `undefined`
 
 ## Coericion
 
