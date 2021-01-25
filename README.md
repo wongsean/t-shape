@@ -12,7 +12,7 @@ const Body = Shape.make((s) =>
 
 // a koa router with json bodyparser
 router.post("/profiles", async (ctx) => {
-  const profile = Body.corece(ctx.request.body);
+  const profile = Body.coerce(ctx.request.body);
   // profile is validated and has type
   // {
   //   name: string
