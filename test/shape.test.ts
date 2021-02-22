@@ -23,6 +23,7 @@ test("all types", () => {
         looseDate: s.Loose.Date,
         looseNumber: s.Loose.Number,
         looseBoolean: s.Loose.Boolean,
+        looseInt: s.Loose.Int,
         interesec: s.Intersect(
           s.Struct({ name: s.String }),
           s.Partial({ age: s.Int })
