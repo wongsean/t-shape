@@ -37,6 +37,7 @@ const Shapeable = {
     Number: L.number,
     Boolean: L.boolean,
     Optional: L.optional,
+    Int: L.Int,
   },
   Shape: <T>(s: Shape<T>) => s.codec,
 } as const;
