@@ -55,6 +55,8 @@ router.post("/profiles", async (ctx) => {
       - [The `s.Loose.Date` type](#the-sloosedate-type)
       - [The `s.Loose.Number` type](#the-sloosenumber-type)
       - [The `s.Loose.Boolean` type](#the-slooseboolean-type)
+      - [The `s.Loose.Optional` type](#the-slooseoptional-type)
+      - [The `s.Loose.Int` type](#the-slooseint-type)
   - [Coericion](#coericion)
 - [Roadmap](#roadmap)
 
@@ -197,7 +199,7 @@ the `s.Loose.Number` will cast string/number to number, cases:
 
 - `123` -> `123`
 - `NaN` -> throw error
-- `"123"` -> throw error
+- `"123"` -> `123`
 - `"123abc"` -> throw error
 - `""` -> throw error
 
@@ -215,6 +217,14 @@ the `s.Loose.Boolean` will cast string/boolean to boolean, cases:
 the `s.Loose.Optional` will cast undefined/null to undefined, cases:
 
 - `undefined` / `null` -> `undefined`
+
+#### The `s.Loose.Int` type
+
+the `s.Loose.Int` is based on `s.Loose.Number`, and cast the result to `s.Int` with `Math.trunc`, cases:
+
+- `123` -> `123`
+- `123.45` -> `123`
+- `-123.45` -> `-123`
 
 ## Coericion
 
