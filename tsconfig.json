@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "outDir": "./lib",
-    "target": "es2018", // Node.js 10
-    "lib": ["es2018"],
+    "target": "es2022", // Node.js 16
+    "lib": [
+      "es2022"
+    ],
     "module": "commonjs",
     "moduleResolution": "node",
     "declaration": true,
@@ -17,8 +19,12 @@
     "useDefineForClassFields": true,
     "forceConsistentCasingInFileNames": true,
     // "skipLibCheck": true
-
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
   },
-  "include": ["./src/**/*", "./src/**/*.test.ts"]
+  "include": [
+    "./src/**/*",
+    "./src/**/*.test.ts"
+  ]
 }
