@@ -1,6 +1,6 @@
 {
   "name": "t-shape",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Well typed safety validator",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
