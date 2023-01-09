@@ -7,7 +7,7 @@ import { UrlLiteral } from "./types/url-literal";
 import { Int } from "./types/int";
 import { Enum } from "./types/enum";
 import { optional } from "./types/optional";
-import { literal } from "./types/literal";
+import { literal as Literal } from "./types/literal";
 import { unknown } from "./types/unknown";
 import { constrain } from "./constrain";
 
@@ -16,7 +16,7 @@ const Shapeable = {
   Number: D.number,
   Boolean: D.boolean,
   Unknown: unknown,
-  Literal: literal,
+  Literal,
   Struct: D.type,
   Partial: D.partial,
   Map: D.record,
@@ -40,7 +40,7 @@ const Shapeable = {
     Int: L.Int,
   },
   Shape: <T>(s: Shape<T>) => s.codec,
-} as const;
+};
 
 interface ErrorConstructor {
   new (message?: string): Error;
