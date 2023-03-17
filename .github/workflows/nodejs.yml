@@ -28,5 +28,5 @@ jobs:
       with:
         version: 7
     - run: pnpm install --frozen-lockfile
-    - run: pnpm run build --if-present
+    - run: pnpm build 
     - run: pnpm test
