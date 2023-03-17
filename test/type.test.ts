@@ -1,4 +1,4 @@
-import { Shape, Static } from "../src";
+import { Shape, Static, ZodError } from "../src";
 
 function passBody(body: { id: string }) {
   return body;
@@ -18,5 +18,5 @@ test("type assertion", () => {
     // can pass after coerce
     const body: S = s.coerce(a);
     passBody(body);
-  }).toThrow(TypeError);
+  }).toThrow(ZodError);
 });

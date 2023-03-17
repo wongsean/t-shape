@@ -1,4 +1,4 @@
-import { Shape } from "../src";
+import { Shape, ZodError } from "../src";
 
 test("simple example", () => {
   const RequestBody = Shape.make((s) =>
@@ -13,7 +13,7 @@ test("simple example", () => {
 
   expect(() => {
     RequestBody.coerce({ id: 1 });
-  }).toThrow(TypeError);
+  }).toThrow(ZodError);
 });
 
 test("type casting", () => {
@@ -50,11 +50,11 @@ test("optional field", () => {
 
   expect(() => {
     RequestBody.coerce({ id: 1 });
-  }).toThrow(TypeError);
+  }).toThrow(ZodError);
 
   expect(() => {
     RequestBody.coerce({ id: "1", liked: "true" });
-  }).toThrow(TypeError);
+  }).toThrow(ZodError);
 });
 
 test("optional field another way", () => {
@@ -75,11 +75,11 @@ test("optional field another way", () => {
 
   expect(() => {
     RequestBody.coerce({ id: 1 });
-  }).toThrow(TypeError);
+  }).toThrow(ZodError);
 
   expect(() => {
     RequestBody.coerce({ id: "1", liked: "true" });
-  }).toThrow(TypeError);
+  }).toThrow(ZodError);
 });
 
 test("nullable field", () => {
@@ -100,11 +100,11 @@ test("nullable field", () => {
 
   expect(() => {
     RequestBody.coerce({ id: "1", author: 2 });
-  }).toThrow(TypeError);
+  }).toThrow(ZodError);
 
   expect(() => {
     RequestBody.coerce({ id: "1" });
-  }).toThrow(TypeError);
+  }).toThrow(ZodError);
 });
 
 class CustomError extends Error {

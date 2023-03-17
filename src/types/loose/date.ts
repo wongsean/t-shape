@@ -1,19 +1,8 @@
-import {
-  string,
-  number,
-  parse,
-  failure,
-  success,
-  union,
-} from "io-ts/lib/Decoder";
-import { pipe } from "fp-ts/lib/function";
+import { z } from "zod";
 
-export const date = pipe(
-  union(string, number),
-  parse((strOrNum) => {
-    const d = new Date(strOrNum);
-    return Number.isNaN(d.getTime())
-      ? failure(strOrNum, "Loose.Date")
-      : success(d);
-  })
-);
+export const date = z
+  .union([z.string(), z.number(), z.date()])
+  .transform((datelike) =>
+    datelike instanceof Date ? datelike : new Date(datelike)
+  )
+  .pipe(z.date());

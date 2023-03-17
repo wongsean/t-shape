@@ -1,32 +1,31 @@
 import { number } from "./number";
-import { isRight } from "fp-ts/lib/Either";
 
 test("decode", () => {
-  const maybe1 = number.decode("abc");
-  expect(isRight(maybe1)).toBeFalsy();
+  const maybe1 = number.safeParse("abc");
+  expect(maybe1.success).toBeFalsy();
 
-  const maybe2 = number.decode("");
-  expect(isRight(maybe2)).toBeFalsy();
+  const maybe2 = number.safeParse("");
+  expect(maybe2.success).toBeFalsy();
 
-  const maybe3 = number.decode("123a");
-  expect(isRight(maybe3)).toBeFalsy();
+  const maybe3 = number.safeParse("123a");
+  expect(maybe3.success).toBeFalsy();
 
-  const maybe4 = number.decode(123);
-  expect(isRight(maybe4)).toBeTruthy();
+  const maybe4 = number.safeParse(123);
+  expect(maybe4.success).toBeTruthy();
 
-  const maybe5 = number.decode("123");
-  expect(isRight(maybe5)).toBeTruthy();
+  const maybe5 = number.safeParse("123");
+  expect(maybe5.success).toBeTruthy();
 
-  const maybe6 = number.decode(true);
-  expect(isRight(maybe6)).toBeFalsy();
+  const maybe6 = number.safeParse(true);
+  expect(maybe6.success).toBeFalsy();
 });
 
 test("type", () => {
-  const maybe = number.decode("1213");
+  const maybe = number.safeParse("1213");
 
-  if (isRight(maybe)) {
+  if (maybe.success) {
     // can pass as number
-    const n: number = maybe.right;
+    const n: number = maybe.data;
 
     // cannot pass as other type like string
     // @ts-expect-error
