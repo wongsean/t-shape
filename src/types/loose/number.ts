@@ -1,22 +1,10 @@
-import {
-  string,
-  number as basicNumber,
-  parse,
-  failure,
-  success,
-  union,
-} from "io-ts/lib/Decoder";
-import { pipe } from "fp-ts/lib/function";
+import { z } from "zod";
 
-export const number = pipe(
-  union(string, basicNumber),
-  parse((strOrNum) => {
+export const number = z
+  .union([z.string().min(1), z.number()])
+  .transform((strOrNum) => {
     const n = new Number(strOrNum).valueOf();
 
-    // handle blank string
-    if (n === 0 && typeof strOrNum === "string" && !strOrNum.trim()) {
-      return failure(n, "Loose.Number");
-    }
-    return Number.isNaN(n) ? failure(strOrNum, "Loose.Number") : success(n);
+    return n;
   })
-);
+  .pipe(z.number());

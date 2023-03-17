@@ -1,38 +1,34 @@
 import { Int } from "./int";
-import { isRight } from "fp-ts/lib/Either";
 
 test("decode", () => {
-  const maybe1 = Int.decode("abc");
-  expect(isRight(maybe1)).toBeFalsy();
+  const maybe1 = Int.safeParse("abc");
+  expect(maybe1.success).toBeFalsy();
 
-  const maybe2 = Int.decode("");
-  expect(isRight(maybe2)).toBeFalsy();
+  const maybe2 = Int.safeParse("");
+  expect(maybe2.success).toBeFalsy();
 
-  const maybe3 = Int.decode("123a");
-  expect(isRight(maybe3)).toBeFalsy();
+  const maybe3 = Int.safeParse("123a");
+  expect(maybe3.success).toBeFalsy();
 
-  const maybe4 = Int.decode("123");
-  expect(isRight(maybe4)).toBeTruthy();
+  const maybe4 = Int.safeParse("123");
+  expect(maybe4.success).toBeTruthy();
 
-  const maybe5 = Int.decode("123.321");
-  expect(isRight(maybe5) && maybe5.right === 123).toBeTruthy();
+  const maybe5 = Int.safeParse("123.321");
+  expect(maybe5.success && maybe5.data === 123).toBeTruthy();
 
-  const maybe6 = Int.decode(123.321);
-  expect(isRight(maybe6) && maybe6.right === 123).toBeTruthy();
+  const maybe6 = Int.safeParse(123.321);
+  expect(maybe6.success && maybe6.data === 123).toBeTruthy();
 
-  const maybe7 = Int.decode(123);
-  expect(isRight(maybe7)).toBeTruthy();
+  const maybe7 = Int.safeParse(123);
+  expect(maybe7.success).toBeTruthy();
 });
 
 test("type", () => {
-  const maybe = Int.decode(123.321);
+  const maybe = Int.safeParse(123.321);
 
-  if (isRight(maybe)) {
+  if (maybe.success) {
     // can pass as number
-    const num: number = maybe.right;
-
-    // can pass as Int
-    const int: Int = maybe.right;
+    const num: number = maybe.data;
 
     // cannot pass as other type like string
     // @ts-expect-error
@@ -40,7 +36,6 @@ test("type", () => {
 
     // use them the same way
     expect(num).toBe(123);
-    expect(int).toBe(123);
   } else {
     fail("it should not be left");
   }

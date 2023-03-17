@@ -1,37 +1,36 @@
 import { boolean } from "./boolean";
-import { isRight } from "fp-ts/lib/Either";
 
 test("decode", () => {
-  const maybe1 = boolean.decode("abc");
-  expect(isRight(maybe1)).toBeFalsy();
+  const maybe1 = boolean.safeParse("abc");
+  expect(maybe1.success).toBeFalsy();
 
-  const maybe2 = boolean.decode("");
-  expect(isRight(maybe2)).toBeFalsy();
+  const maybe2 = boolean.safeParse("");
+  expect(maybe2.success).toBeFalsy();
 
-  const maybe3 = boolean.decode(123);
-  expect(isRight(maybe3)).toBeFalsy();
+  const maybe3 = boolean.safeParse(123);
+  expect(maybe3.success).toBeFalsy();
 
-  const maybe4 = boolean.decode(true);
-  expect(isRight(maybe4)).toBeTruthy();
+  const maybe4 = boolean.safeParse(true);
+  expect(maybe4.success).toBeTruthy();
 
-  const maybe5 = boolean.decode("true");
-  expect(isRight(maybe5)).toBeTruthy();
+  const maybe5 = boolean.safeParse("true");
+  expect(maybe5.success).toBeTruthy();
 });
 
 test("type", () => {
-  const maybe = boolean.decode("true");
+  const maybe = boolean.safeParse("true");
 
-  if (isRight(maybe)) {
+  if (maybe.success) {
     // can pass as boolean
-    const b: boolean = maybe.right;
+    const b: boolean = maybe.data;
 
     // cannot pass as other type like string
     // @ts-expect-error
-    const s: string = maybe.right;
+    const s: string = maybe.data;
 
     // use them the same way
     expect(b).toStrictEqual(true);
   } else {
-    fail("it should not be left");
+    fail("it should not be failed");
   }
 });

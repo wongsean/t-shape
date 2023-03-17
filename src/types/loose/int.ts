@@ -1,12 +1,10 @@
-import { parse, success } from "io-ts/lib/Decoder";
-import { number } from "./number";
-import { pipe } from "fp-ts/lib/function";
+import { z } from "zod";
 
-import type { IntBrand } from "../int";
+export const Int = z
+  .union([z.string().min(1), z.number()])
+  .transform((strOrNum) => {
+    const n = new Number(strOrNum).valueOf();
 
-export type Int = number & IntBrand;
-
-export const Int = pipe(
-  number,
-  parse((n) => success(Math.trunc(n) as Int))
-);
+    return Math.trunc(n);
+  })
+  .pipe(z.number().int());

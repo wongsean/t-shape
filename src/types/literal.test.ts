@@ -1,43 +1,42 @@
 import { literal } from "./literal";
-import { isRight } from "fp-ts/lib/Either";
 
 test("decode", () => {
-  const maybe1 = literal(null).decode(null);
-  expect(isRight(maybe1)).toBeTruthy();
+  const maybe1 = literal(null).safeParse(null);
+  expect(maybe1.success).toBeTruthy();
 
-  const maybe2 = literal(undefined).decode(undefined);
-  expect(isRight(maybe2)).toBeTruthy();
+  const maybe2 = literal(undefined).safeParse(undefined);
+  expect(maybe2.success).toBeTruthy();
 
-  const maybe3 = literal("string").decode("string");
-  expect(isRight(maybe3)).toBeTruthy();
+  const maybe3 = literal("string").safeParse("string");
+  expect(maybe3.success).toBeTruthy();
 
-  const maybe4 = literal(123).decode(123);
-  expect(isRight(maybe4)).toBeTruthy();
+  const maybe4 = literal(123).safeParse(123);
+  expect(maybe4.success).toBeTruthy();
 
-  const maybe5 = literal(true).decode(true);
-  expect(isRight(maybe5)).toBeTruthy();
+  const maybe5 = literal(true).safeParse(true);
+  expect(maybe5.success).toBeTruthy();
 
-  const maybe6 = literal("ON", "OFF").decode("OFF");
-  expect(isRight(maybe6)).toBeTruthy();
+  const maybe6 = literal("ON", "OFF").safeParse("OFF");
+  expect(maybe6.success).toBeTruthy();
 
-  const maybe7 = literal(null).decode(undefined);
-  expect(isRight(maybe7)).toBeFalsy();
+  const maybe7 = literal(null).safeParse(undefined);
+  expect(maybe7.success).toBeFalsy();
 });
 
 test("type", () => {
-  const maybe = literal("ON").decode("ON");
+  const maybe = literal("ON").safeParse("ON");
 
-  if (isRight(maybe)) {
+  if (maybe.success) {
     // can pass as string
-    const on: "ON" = maybe.right;
+    const on: "ON" = maybe.data;
 
     // cannot pass as other type
     // @ts-expect-error
-    const off: "OFF" = maybe.right;
+    const off: "OFF" = maybe.data;
 
     // use them the same way
     expect(on).toBe("ON");
   } else {
-    fail("it should not be left");
+    fail("it should not be failed");
   }
 });

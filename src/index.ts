@@ -1,45 +1,48 @@
-import * as D from "io-ts/lib/Decoder";
-import { isLeft } from "fp-ts/lib/Either";
-
 import * as L from "./types/loose";
-import { OidLiteral } from "./types/oid-literal";
-import { UrlLiteral } from "./types/url-literal";
-import { Int } from "./types/int";
-import { Enum } from "./types/enum";
-import { optional } from "./types/optional";
+
 import { literal as Literal } from "./types/literal";
-import { unknown } from "./types/unknown";
-import { constrain } from "./constrain";
+
+import { EnumLike, z, ZodRawShape, ZodType, ZodTypeAny } from "zod";
 
 const Shapeable = {
-  String: D.string,
-  Number: D.number,
-  Boolean: D.boolean,
-  Unknown: unknown,
+  String: z.string(),
+  Number: z.number(),
+  Boolean: z.boolean(),
+  Unknown: z.unknown(),
   Literal,
-  Struct: D.type,
-  Partial: D.partial,
-  Map: D.record,
-  Array: D.array,
-  Tuple: D.tuple,
-  Intersect: <A, B>(a: D.Decoder<unknown, A>, b: D.Decoder<unknown, B>) =>
-    D.intersect(a)(b),
-  Union: D.union,
-  Nullable: D.nullable,
-  Optional: optional,
-  Enum,
-  OidLiteral,
-  UrlLiteral,
-  Int,
-  Constrain: constrain,
+  Struct: z.object,
+  Partial: <T extends ZodRawShape>(o: T) => z.object(o).partial(),
+  Map: z.record,
+  Array: z.array,
+  Tuple: <T extends [] | [ZodTypeAny, ...ZodTypeAny[]]>(...args: T) =>
+    z.tuple(args),
+  Intersect: z.intersection,
+  Union: <T extends readonly [ZodTypeAny, ZodTypeAny, ...ZodTypeAny[]]>(
+    ...args: T
+  ) => z.union(args),
+  Nullable: z.nullable,
+  Optional: z.optional,
+  Enum: <T extends EnumLike>(_name: string, value: T) => z.nativeEnum(value),
+  OidLiteral: z.string().regex(/^[0-9a-fA-F]{24}$/),
+  UrlLiteral: z.string().url(),
+  Int: z.number().int(),
+  Constrain: <
+    Output extends any,
+    T extends ZodType<Output>,
+    RefinedOutput extends Output
+  >(
+    t: T,
+    check: (arg: Output) => arg is RefinedOutput,
+    message?: string
+  ) => t.refine(check, message),
   Loose: {
     Date: L.date,
     Number: L.number,
     Boolean: L.boolean,
-    Optional: L.optional,
+    Optional: <T extends ZodTypeAny>(t: T) => t.nullish(),
     Int: L.Int,
   },
-  Shape: <T>(s: Shape<T>) => s.codec,
+  Shape: <T extends ZodTypeAny>(s: Shape<T>) => s.codec,
 };
 
 interface ErrorConstructor {
@@ -47,27 +50,32 @@ interface ErrorConstructor {
   readonly prototype: Error;
 }
 
-export class Shape<T> {
-  private constructor(public readonly codec: D.Decoder<unknown, T>) {}
+export class Shape<T extends ZodTypeAny = ZodTypeAny> {
+  private constructor(public readonly codec: T) {}
 
-  static make<T>(fn: (s: typeof Shapeable) => D.Decoder<unknown, T>) {
+  static make<T extends ZodTypeAny>(fn: (z: typeof Shapeable) => T) {
     return new Shape(fn(Shapeable));
   }
 
-  coerce(value: unknown, error: ErrorConstructor | Error = TypeError): T {
-    const maybe = this.codec.decode(value);
+  coerce(value: unknown, error?: ErrorConstructor | Error): z.infer<T> {
+    const result = this.codec.safeParse(value);
 
-    if (isLeft(maybe)) {
+    if (!result.success) {
       if (error instanceof Error) {
         throw error;
       }
-      throw new error(D.draw(maybe.left));
+      if (error) {
+        throw new error(result.error.message);
+      }
+      throw result.error;
     }
 
-    return maybe.right;
+    return result.data;
   }
 }
 
-export type Static<T extends Shape<unknown>> = T extends Shape<infer A>
-  ? A
+export type Static<S extends Shape> = S extends Shape<infer T>
+  ? z.infer<T>
   : never;
+
+export { ZodError } from "zod";
