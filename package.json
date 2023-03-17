@@ -4,6 +4,7 @@
   "description": "Well typed safety validator",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "packageManager": "pnpm@7.17.0",
   "scripts": {
     "test": "jest",
     "build": "tsc",
